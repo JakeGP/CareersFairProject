@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+    <!--SCRIPTS-->
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+
+    <!--ICONS-->
+		<link rel="icon" type="image/png" href="" sizes="32x32" />
+		<link rel="icon" type="image/png" href="" sizes="16x16" />
+
+    <!--STYLESHEETS-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Quicksand|Raleway" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="styles/common.css" rel="stylesheet">
+
+    <!--TITLE-->
+		<title>First Central Group</title>
+  </head>
+
+  <body>
+		<div id="header" class="flex row center-vh">
+			<img src="http://www.firstcentralgroup.com/FirstCentralGroup/media/FSTGroupMedia/logos/first-central-logo-2.png" width=150px />
+		</div>
+		<div id="wrapper" class="flex column center-vh">
+			<div id="body">
+				<div id="main-canvas" class="flex column between">
+					<div id="viewports" class="flex row center-vh">
+						<button id="new" class="murphy-button flex row center-vh"><i class="material-icons">delete</i></button>
+						<button id="accept" class="photo-accept flex column center-vh"><i class="material-icons">done</i></button>
+
+    				<video id="video" class="image-window" width="640" height="480" autoplay></video>
+    				<canvas id="canvas" class="image-window" width="640" height="480"></canvas>
+
+						<button id="decline" class="photo-accept flex column center-vh"><i class="material-icons">clear</i></button>
+						<button id="more" class="murphy-button flex row center-vh"><i class="material-icons">refresh</i></button>
+					</div>
+					<div id="buttons" class="flex row between">
+    				<button id="snap" class="flex row center-vh"><i class="material-icons">camera_alt</i></button>
+						<button id="ask-voice" class="flex row center-vh"><i class="material-icons">mic</i></button>
+					</div>
+					<div id="search" class="flex row between">
+						<div id="textbox-wrapper" class="flex row center-vh">
+							<div id="text-pre"><p>What if.. </p></div>
+							<input id="ask-textbox" type="text" placeholder="barry chuckle was a cowboy?"/>
+						</div>
+						<button id="ask-textbutton">Ask Murphy</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer" class="flex column center-v">
+			<p>&copy; Copyright First Central Group 2017</p>
+		</div>
+  </body>
+
+  <footer>
+    <script type="text/javascript" src="scripts/webcam.js"></script>
+  </footer>
+</html>
