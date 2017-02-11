@@ -2,8 +2,10 @@
 <html>
 	<head lang="en">
     <!--SCRIPTS-->
-		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+		<script type="text/javascript" src="scripts/artyom.js"></script>
+		<script type="text/javascript" src="scripts/artyom.min.js"></script>
 
     <!--ICONS-->
 		<link rel="icon" type="image/png" href="" sizes="32x32" />
@@ -19,8 +21,13 @@
   </head>
 
   <body>
-		<div id="header" class="flex row center-vh">
-			<img src="http://www.firstcentralgroup.com/FirstCentralGroup/media/FSTGroupMedia/logos/first-central-logo-2.png" width=150px />
+		<div id="header" class="flex row center-v around">
+			<div class="flex column center-vh">
+				<img src="https://www.firstcentralgroup.com/FirstCentralGroup/media/FSTGroupMedia/logos/first-central-logo-2.png" width=150px />
+			</div>
+			<div class="flex column center-vh">
+				<p class="header">What if I worked at First Central?</p>
+			</div>
 		</div>
 		<div id="wrapper" class="flex column center-vh">
 			<div id="body">
@@ -42,7 +49,7 @@
 					<div id="search" class="flex row between">
 						<div id="textbox-wrapper" class="flex row center-vh">
 							<div id="text-pre"><p>What if.. </p></div>
-							<input id="ask-textbox" type="text" placeholder="barry chuckle was a cowboy?"/>
+							<input id="ask-textbox" type="text" placeholder="homer simpson was a ballerina?"/>
 						</div>
 						<button id="ask-textbutton">Ask Murphy</button>
 					</div>
@@ -56,5 +63,7 @@
 
   <footer>
     <script type="text/javascript" src="scripts/webcam.js"></script>
+    <script type="text/javascript" src="scripts/speech.js"></script>
+    <script type="text/javascript" src="scripts/murphybot.js"></script>
   </footer>
 </html>
