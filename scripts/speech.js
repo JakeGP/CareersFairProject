@@ -51,10 +51,14 @@ var settings = {
 var UserDictation = artyom.newDictation(settings);
 
 function startRecognition(){
+  $("#ask-voice").addClass("clicked");
+  $("#ask-voice i").html("mic");
   UserDictation.start();
 }
 
-function stopRecognition(){
+function stopRecognition() {
+  $("#ask-voice").removeClass("clicked");
+  $("#ask-voice i").html("mic_off");
   UserDictation.stop();
 }
 
@@ -72,7 +76,7 @@ function stopRecognition(){
   }
 }(jQuery));
 
-$("#ask-textbox").keyup(function(){
+$("#ask-textbox").keyup(function(e){
   if($("#ask-textbox").val().includes("what if")) {
     tempText = $("#ask-textbox").val();
     tempText = tempText.replace("what if", "");
@@ -87,6 +91,11 @@ $("#ask-textbox").keyup(function(){
     tempText = $("#ask-textbox").val();
     tempText = tempText.charAt(0).replace("?", "");
     $("#ask-textbox").val(tempText);
+  }
+  if(e.keyCode == 13)
+  {
+    startMurphyCall();
+    stopRecognition();
   }
 });
 
