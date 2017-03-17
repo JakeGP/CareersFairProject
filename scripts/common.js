@@ -1,5 +1,9 @@
 var photoTaken = false;
 
+$(function() {
+  getUsers();
+});
+
 function showImageFromMurphy() {
   $("#video").hide();
   $("#canvas").hide();
@@ -36,6 +40,14 @@ function startAgain() {
   $("#ask-textbox").focus();
 }
 
+function dataURItoBlob(dataURI) {
+  var byteString = atob(dataURI.split(',')[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) { ia[i] = byteString.charCodeAt(i); }
+  return new Blob([ab], { type: 'image/jpeg' });
+}
+
 $("#ask-textbutton").on("click", function() {
   startMurphyCall();
   stopRecognition();
@@ -47,15 +59,7 @@ $("#startagain").click(function() {
 
 $("#accept").click(function() {
     if(photoTaken) {
-      var canvas = document.getElementById("canvas");
-      var dataURL = canvas.toDataURL("image/png");
-      dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-      try {
-        localStorage.setItem("image", dataURL);
-      }
-      catch (e) {
-        console.log("Storage failed: " + e);
-      }
+      uploadImage();
 
       $("#video").css("display", "block");
       $("#canvas").css("display", "none");

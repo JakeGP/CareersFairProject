@@ -1,9 +1,10 @@
 var urls = {
   sendMessage : "https://slack.com/api/chat.postMessage",
   getUsers : "https://slack.com/api/im.list",
-  getMessages : "https://slack.com/api/im.history"
+  getMessages : "https://slack.com/api/im.history",
+  uploadFile : "https://slack.com/api/files.upload"
 }
-var _token = "xoxp-154581537425-155259091202-155300101364-c6ff0ee41ae6babc82984e31e02f169a";
+var _token = "xoxp-154581537425-155259091202-156296213911-4c8f7398fd2525f3382f0f875a8dbd62";
 var chatIds;
 var firstResponse = true;
 var numberOfMessagesFirst = 0;
@@ -14,14 +15,16 @@ function startMurphyCall() {
   firstResponse = true;
   numberOfMessagesFirst = 0;
   numberOfMessagesSecond = 0;
+  sendMessage();
+}
 
+function getUsers() {
   data = { token : _token };
   makeCall(urls.getUsers, data, addChat);
 }
 
 function addChat(data) {
   chatIds = data.ims;
-  sendMessage();
 }
 
 function sendMessage() {
@@ -92,11 +95,47 @@ function handleResponse(response) {
   startAgain();
 }
 
+function uploadImage() {
+  var canvas = document.getElementById("canvas");
+  var dataURL = canvas.toDataURL("image/png");
+  var blob = dataURItoBlob(dataURL);
+  var form = new FormData();
+  form.append("file", blob);
+
+  data = {
+    token: _token,
+    filename: "image",
+    channel: chatIds[1].id
+   };
+
+   makeUploadCall(urls.uploadFile, form, null);
+}
+
 function makeCall(url, _data, successFunction) {
   $.ajax({
     url: url,
     data: _data,
     datatype: 'json',
+    type: 'POST',
+    success: function (data) {
+      console.log(data);
+      if(successFunction != null)
+        successFunction(data);
+      return data;
+     },
+     error: function (jqXHR, textStatus, errorThrown) {
+      return errorThrown;
+    }
+  });
+}
+
+function makeUploadCall(url, _data, successFunction) {
+  $.ajax({
+    url: url + "?token=" + _token + "&filename=name&pretty=1",
+    data: _data,
+    processData: false,
+    contentType: "multipart/form-data",
+    type: 'POST',
     success: function (data) {
       console.log(data);
       if(successFunction != null)

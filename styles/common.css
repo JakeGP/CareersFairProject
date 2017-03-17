@@ -80,21 +80,25 @@ button:hover {
 /*ID ELEMENTS*/
 #accept {
   margin-right: -200px;
+  opacity: 0.0;
 }
 #accept:hover {
   height: 60px;
 }
 #accept.show {
   margin-right: -23px;
+  opacity: 1.0;
 }
 #decline {
   margin-left: -200px;
+  opacity: 0.0;
 }
 #decline:hover {
   height: 60px;
 }
 #decline.show {
   margin-left: -23px;
+  opacity: 1.0;
 }
 
 #wrapper {
