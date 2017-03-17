@@ -24,13 +24,25 @@
 .around {
   justify-content: space-around;
 }
+.start {
+  justify-content: flex-start;
+}
+.end {
+  justify-content: flex-end;
+}
 .between-v {
   align-items: stretch;
+}
+.colorWhite {
+  color: white;
+}
+.colorPurple {
+  color: #592A59;
 }
 
 /*CLASS ELEMENTS*/
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 button {
@@ -43,6 +55,23 @@ button {
   border: 3px solid #592A59;
   box-shadow: 0px 5px #967096;
   transition: .2s;
+}
+
+p {
+  font-family: 'Raleway';
+  font-size: 1.5em;
+}
+
+ul {
+  padding-left: 30px;
+}
+
+li {
+  font-family: 'Raleway';
+  font-size: 0.9em;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 button.clicked {
@@ -74,10 +103,31 @@ button:hover {
 }
 
 .header {
+  color: white;
   font-size: 2.5em;
 }
 
 /*ID ELEMENTS*/
+#info-wrapper {
+  position: absolute;
+  width: 300px;
+  top: 45%;
+  left: 20px;
+  transform: translateY(-50%);
+  border: 3px solid #592A59;
+  background: white;
+  box-shadow: 0px 5px #967096;
+  animation-name: infofloat;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes infofloat {
+  0%  { top: 45%; }
+  50% { top: 48%; }
+}
+
 #accept {
   margin-right: -200px;
   opacity: 0.0;
@@ -99,6 +149,12 @@ button:hover {
 #decline.show {
   margin-left: -23px;
   opacity: 1.0;
+}
+#ask-voice.clicked {
+  background: #592A59;
+  color: white;
+  transition: .2s;
+  width: 52%;
 }
 
 #wrapper {
@@ -141,8 +197,29 @@ button:hover {
   font-family: 'Quicksand';
   box-shadow: 0px 5px #967096;
 }
+#info-header {
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  color: white;
+  background: #592A59;
+  font-family: 'Quicksand';
+  box-shadow: 0px 5px #967096;
+}
+#questions-wrapper {
+  width: calc(100% - 15px);
+  height: 50px;
+  text-align: center;
+  color: #592A59;
+  background: white;
+  font-family: 'Quicksand';
+  box-shadow: 0px 5px #967096;
+  border: 3px solid #592A59;
+  padding-left: 10px;
+}
 
 #textbox-wrapper {
+  transition: .4s;
   width: 65%;
 }
 
@@ -151,8 +228,8 @@ button:hover {
   background: white;
   font-family: 'Raleway';
   height: 44px;
-  width: 20%;
-  padding-left: 10px;
+  width: 70px;
+  padding-right: 10px;
   font-size: 0.9em;
   font-weight: bold;
   text-align: center;
@@ -167,7 +244,7 @@ button:hover {
   background: white;
   font-family: 'Raleway';
   height: 40px;
-  width: 80%;
+  width: calc(100% - 70px);
   font-size: 0.9em;
   border-top: 3px solid #592A59;
   border-right: 3px solid #592A59;
@@ -177,6 +254,9 @@ button:hover {
   box-shadow: 0px 5px #967096;
   outline: none;
   transition: .4s;
+}
+#textbox-wrapper.fullwidth {
+  width: 100%;
 }
 
 #ask-textbutton {
@@ -196,6 +276,10 @@ button:hover {
 
 #body {
   width: 640px;
+}
+
+#share.shareicons {
+  width: 100%;
 }
 
 #video {
@@ -235,6 +319,26 @@ button:hover {
   height: 480px;
   width: 1140px;
   border: 3px solid #592A59;
+}
+
+#cameraFlash {
+  position: absolute;
+  background: white;
+  z-index: 30;
+  display: none;
+  height: 480px;
+  width: 640px;
+}
+#recording {
+  display: none;
+}
+
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.1;
+  z-index: -1;
 }
 
 ::-webkit-input-placeholder {

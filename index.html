@@ -26,17 +26,33 @@
 				<img src="https://www.firstcentralgroup.com/FirstCentralGroup/media/FSTGroupMedia/logos/first-central-logo-2.png" width=150px />
 			</div>
 			<div class="flex column center-vh">
-				<p class="header">What if I worked at First Central?</p>
+				<p class="header colorWhite">What if I worked at First Central?</p>
 			</div>
+		</div>
+		<div id="info-wrapper" class="flex column center-h start">
+			<div id="info-header" class="flex column center-vh">
+				<h1 class="colorWhite">What is this?</h1>
+			</div>
+			<ul class="colorPurple">
+				<li>This is a tool powered by Microsoft's Murphy Bot.</li>
+				<li>It's purpose is to answer "What if.." questions fueled by your imagination.</li>
+				<li>Try asking it something like "What if Donald Trump was a duck?"</li>
+				<li>Or you can upload your own photo, and ask it a "What if <b>I</b> was..." question for hilarious results.</li>
+				<li>When you've got your response, share the image on Twitter or Facebook along with the hashtag #FCG to enter the competition!</li>
+			</ul>
 		</div>
 		<div id="wrapper" class="flex column center-vh">
 			<div id="body">
 				<div id="main-canvas" class="flex column between">
+					<div id="questions-wrapper" class="flex row center-h start">
+						<h3 id="questions" class="colorPurple"></h3>
+					</div>
 					<div id="viewports" class="flex row center-vh">
 						<button id="accept" class="photo-accept flex column center-vh"><i class="material-icons">done</i></button>
 
     				<video id="video" class="image-window" width="640" height="480" autoplay></video>
 						<div id="murphyImage" class="flex column center-vh image-window"><img src="" height="480"/></div>
+						<div id="cameraFlash" class="flex column center-vh"><p id="warning" class="colorPurple">UPLOADING PHOTOS DOESNT WORK YET</p></div>
 						<div id="murphyloading" class="flex column center-vh image-window"><img src="/images/loading.gif" width="100"/></div>
     				<canvas id="canvas" class="image-window" width="640" height="480"></canvas>
 
@@ -44,16 +60,22 @@
 					</div>
 					<div id="buttons" class="flex row between">
     				<button id="snap" class="flex row center-vh"><i class="material-icons">camera_alt</i></button>
-						<button id="ask-voice" class="flex row center-vh"><i class="material-icons">mic_off</i></button>
+						<button id="ask-voice" class="flex row center-vh"><i class="material-icons">mic_off</i><img id="recording" src="/images/mic.gif" width="50"/></button>
 					</div>
 					<div id="buttons2" class="flex row between">
 						<button id="startagain" class="flex row center-vh">Start Again</button>
-						<button id="share" class="flex row center-vh"><i class="material-icons">share</i></button>
+						<button id="share" class="flex row center-vh">
+							<i class="material-icons">share</i>
+							<div id="socialicons" class="flex row center-vh">
+								<a href=""><img id="recording" src="/images/twitter.png" width="50"/></a>
+								<a href=""><img id="recording" src="/images/facebook.png" width="50"/></a>
+							</div>
+						</button>
 					</div>
 					<div id="search" class="flex row between">
 						<div id="textbox-wrapper" class="flex row center-vh">
-							<div id="text-pre"><p>What if.. </p></div>
-							<input id="ask-textbox" type="text" placeholder="homer simpson was a ballerina?"/>
+							<div id="text-pre" class="flex center-h end"><h3 class="colorPurple">What if.. </h3></div>
+							<input id="ask-textbox" type="text" placeholder="Donald Trump was a potato?"/>
 						</div>
 						<button id="ask-textbutton">Ask Murphy</button>
 					</div>
@@ -63,6 +85,7 @@
 		<div id="footer" class="flex column center-v">
 			<p>&copy; Copyright First Central Group 2017</p>
 		</div>
+		<img id="background" src="/images/background.png" width="1920px"/>
   </body>
 
   <footer>

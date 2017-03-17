@@ -23,6 +23,7 @@ window.onload = function(){
         listen:true
     }).then(function(){
         console.log("Artyom has been correctly initialized");
+        artyom.addCommands(commandCheese);
         console.log("The following array shouldn't be empty" , artyom.getVoices());
     }).catch(function(){
         console.error("An error occurred during the initialization");
@@ -41,6 +42,7 @@ var settings = {
         $("#ask-textbox").val(tempText);
     },
     onStart:function(){
+
         console.log("Dictation started by the user");
     },
     onEnd:function(){
@@ -48,17 +50,27 @@ var settings = {
     }
 };
 
+var commandCheese = {
+    indexes:["cheese", "take photo","snap"], // These spoken words will trigger the execution of the command
+    action:function(){ // Action to be executed when a index match with spoken word
+        takePhoto();
+        artyom.addCommands(commandCheese);
+    }
+};
+
 var UserDictation = artyom.newDictation(settings);
 
 function startRecognition(){
   $("#ask-voice").addClass("clicked");
-  $("#ask-voice i").html("mic");
+  $("#ask-voice i").hide();
+  $("#recording").show();
   UserDictation.start();
 }
 
 function stopRecognition() {
   $("#ask-voice").removeClass("clicked");
-  $("#ask-voice i").html("mic_off");
+  $("#ask-voice i").show();
+  $("#recording").hide();
   UserDictation.stop();
 }
 
@@ -77,6 +89,7 @@ function stopRecognition() {
 }(jQuery));
 
 $("#ask-textbox").keyup(function(e){
+
   if($("#ask-textbox").val().includes("what if")) {
     tempText = $("#ask-textbox").val();
     tempText = tempText.replace("what if", "");
@@ -101,6 +114,7 @@ $("#ask-textbox").keyup(function(e){
 
 
 $("#ask-voice").click(function() {
+  $(this).toggleClass("clicked");
   if(!speechStarted) {
     startRecognition();
     speechStarted = true;

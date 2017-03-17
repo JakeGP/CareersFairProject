@@ -2,13 +2,18 @@ var urls = {
   sendMessage : "https://slack.com/api/chat.postMessage",
   getUsers : "https://slack.com/api/im.list",
   getMessages : "https://slack.com/api/im.history",
-  uploadFile : "https://slack.com/api/files.upload"
+  uploadFile : "https://slack.com/api/files.upload",
+  authorise : "https://slack.com/oauth/authorize",
+  access : "https://slack.com/api/oauth.access"
 }
-var _token = "xoxp-154581537425-155259091202-156296213911-4c8f7398fd2525f3382f0f875a8dbd62";
+var _token = "xoxp-154581537425-155259091202-156519975830-0478f7b386b55470d11bf91d08ad16fb";
+var ClientID = "154581537425.155941841734";
+var ClientSecret = "e68ac9d9354018255366f28429df17ae";
 var chatIds;
 var firstResponse = true;
 var numberOfMessagesFirst = 0;
 var numberOfMessagesSecond = 0;
+var counter;
 
 function startMurphyCall() {
   showLoading();
@@ -52,6 +57,7 @@ function getMessages() {
 function getFirstMessages(data) {
   if(numberOfMessagesFirst == 0) {
     numberOfMessagesFirst = data.messages.length;
+    counter = 0;
     getMessages();
   }
   else {
@@ -66,6 +72,7 @@ function pollMessages() {
     count: 1000
   };
 
+  counter += 1;
   makeCall(urls.getMessages, data, updateResponses);
 }
 
@@ -84,6 +91,9 @@ function updateResponses(data) {
       handleResponse(data.messages[0].text);
     }
   }
+  else if(counter > 6) {
+    startAgain();
+  }
   else {
     setTimeout(pollMessages, 2000);
   }
@@ -97,16 +107,10 @@ function handleResponse(response) {
 
 function uploadImage() {
   var canvas = document.getElementById("canvas");
-  var dataURL = canvas.toDataURL("image/png");
+  var dataURL = canvas.toDataURL();
   var blob = dataURItoBlob(dataURL);
-  var form = new FormData();
+  var form = new FormData(document.forms[0]);
   form.append("file", blob);
-
-  data = {
-    token: _token,
-    filename: "image",
-    channel: chatIds[1].id
-   };
 
    makeUploadCall(urls.uploadFile, form, null);
 }
@@ -131,7 +135,7 @@ function makeCall(url, _data, successFunction) {
 
 function makeUploadCall(url, _data, successFunction) {
   $.ajax({
-    url: url + "?token=" + _token + "&filename=name&pretty=1",
+    url: url + "?token=" + _token + "&channels=" + chatIds[1].id + "&filename=name&pretty=1",
     data: _data,
     processData: false,
     contentType: "multipart/form-data",

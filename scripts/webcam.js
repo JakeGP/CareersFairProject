@@ -13,14 +13,7 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 }
 
 // Trigger photo take
-document.getElementById("snap").addEventListener("click", function() {
-  localStorage.removeItem("image");
-  $("#video").css("display", "none");
-  $("#canvas").css("display", "block");
-  showPhotoButtons();
-	context.drawImage(video, 0, 0, 640, 480);
-  photoTaken = true;
-});
+
 
 /* Legacy code below: getUserMedia
 else if(navigator.getUserMedia) { // Standard
