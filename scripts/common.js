@@ -16,7 +16,11 @@ var titles = [
   "What if David Attenborough was in the Great British Bake Off?",
   "What if Jesus was baking a cake?",
   "What if a Granny was a Formula 1 Race Driver?"
-]
+];
+var shareLinks = {
+  facebook : "http://www.facebook.com/sharer.php?u=",
+  twitter : "http://twitter.com/share?text=I visited the FCG stand at the careers fair today %23FCGCareersFair2017&url="
+}
 
 $(function() {
   getUsers();
@@ -74,9 +78,10 @@ function showImage() {
 }
 
 function showSocialIcons() {
-  $("#startagain").fadeOut(200);
-  $("#share").addClass("shareicons");
-  $("#socialicons").css("display", "flex");
+  var imgurl = $("#murphyImage img").attr("src");
+  $("#socialicons").addClass("show");
+  $("#twitter").attr("href", shareLinks.twitter + imgurl);
+  $("#facebook").attr("href", shareLinks.facebook + imgurl);
 }
 
 function hideSocialIcons() {
@@ -85,8 +90,7 @@ function hideSocialIcons() {
 
 function showLoading() {
   $("#ask-textbox").prop("disabled", true);
-  $("#video").hide();
-  $("#canvas").hide();
+  $("#attachmentRecieved").css("display", "none");
   $("#murphyloading").css("display", "flex");
 }
 
@@ -101,18 +105,24 @@ function hidePhotoButtons() {
 }
 
 function startAgain() {
+  $("#murphyImage img").attr("src", "");
   $("#video").css("display", "block");
   $("#canvas").css("display", "none");
   $("#murphyImage").css("display", "none");
   $("#murphyloading").hide();
+  $("#error").css("display", "none");
   $("#buttons").css("display", "flex");
   $("#buttons2").css("display", "none");
+  $("#socialicons").removeClass("show");
+  $("#attachmentRecieved").css("display", "none");
+  $("#attachmentRefused").css("display", "none");
   $("#ask-textbutton").fadeIn(200);
   $("#textbox-wrapper").removeClass("fullwidth");
   $("#ask-textbox").prop("disabled", false);
   $("#ask-textbox").val("");
   $("#ask-textbox").focus();
 }
+
 function dataURItoBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -126,8 +136,43 @@ function dataURItoBlob(dataURI) {
 
 function takePhoto() {
   showImage();
-  $("#cameraFlash").fadeIn(400).delay(1000).fadeOut(1000);
+  hidePhotoButtons();
+  $("#ask-textbox").prop("disabled", true);
   $("#cameraFlash").css("display", "flex");
+  $("#cameraFlash").fadeIn(100).delay(400).fadeOut(1000);
+
+  setTimeout(function() {
+    $("#cameraFlash").css("display", "none");
+    $("#murphyloading").css("display", "flex");
+    uploadImage();
+  }, 1400);
+}
+
+function attachmentRecieved() {
+  $("#ask-textbox").prop("disabled", false);
+  $("#murphyloading").css("display", "none");
+  $("#attachmentRecieved").css("display", "flex");
+  $("#ask-textbox").focus();
+  photoTaken = false;
+}
+
+function attachmentRefused() {
+  $("#murphyloading").css("display", "none");
+  $("#attachmentRefused").css("display", "flex");
+  $("#attachmentRefused").fadeIn(100).delay(400).fadeOut(2500);
+  photoTaken = false;
+
+  setTimeout(function() { startAgain(); }, 2500);
+}
+
+function error(errorMessage) {
+  $("#murphyloading").css("display", "none");
+  $("#error p").html(errorMessage);
+  $("#error").css("display", "flex");
+  $("#error").fadeIn(100).delay(600).fadeOut(2500);
+  photoTaken = false;
+
+  setTimeout(function() { startAgain(); }, 2500);
 }
 
 $("#share").on("click", function() {
@@ -139,31 +184,11 @@ $("#snap").on("click", function() {
 });
 
 $("#ask-textbutton").on("click", function() {
+  showLoading();
   startMurphyCall();
   stopRecognition();
 });
 
 $("#startagain").click(function() {
   startAgain();
-});
-
-$("#accept").click(function() {
-    if(photoTaken) {
-      uploadImage();
-      $("#cameraFlash").hide();
-      $("#video").css("display", "block");
-      $("#canvas").css("display", "none");
-      photoTaken = false;
-      hidePhotoButtons();
-    }
-});
-
-$("#decline").click(function() {
-  $("#cameraFlash").hide();
-  if(photoTaken) {
-    $("#video").css("display", "block");
-    $("#canvas").css("display", "none");
-    photoTaken = false;
-    hidePhotoButtons();
-  }
 });

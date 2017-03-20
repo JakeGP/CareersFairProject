@@ -6,7 +6,7 @@ var urls = {
   authorise : "https://slack.com/oauth/authorize",
   access : "https://slack.com/api/oauth.access"
 }
-var _token = "xoxp-154581537425-155259091202-156519975830-0478f7b386b55470d11bf91d08ad16fb";
+var _token = "xoxp-154581537425-155259091202-156699090963-e5526879277c450e0926ae575e25c081";
 var ClientID = "154581537425.155941841734";
 var ClientSecret = "e68ac9d9354018255366f28429df17ae";
 var chatIds;
@@ -16,7 +16,6 @@ var numberOfMessagesSecond = 0;
 var counter;
 
 function startMurphyCall() {
-  showLoading();
   firstResponse = true;
   numberOfMessagesFirst = 0;
   numberOfMessagesSecond = 0;
@@ -80,39 +79,76 @@ function updateResponses(data) {
   numberOfMessagesSecond = data.messages.length;
 
   if(numberOfMessagesSecond > numberOfMessagesFirst) {
-    if('attachments' in data.messages[0]) {
-      $("#murphyImage img").attr("src", data.messages[0].attachments[0].image_url);
-      showImageFromMurphy();
-      stopRecognition();
-      imagefound = true;
-    }
-    else {
-      console.log(data.messages[0].text);
-      handleResponse(data.messages[0].text);
+    console.log(data.messages[0].text);
+    handleResponse(data.messages[0].text);
+
+    var difference = numberOfMessagesSecond - numberOfMessagesFirst;
+    for(var i = 0; i < difference; i++) {
+      if('attachments' in data.messages[0]) {
+        $("#murphyImage img").attr("src", data.messages[0].attachments[0].image_url);
+        showImageFromMurphy();
+        stopRecognition();
+        imagefound = true;
+      }
     }
   }
-  else if(counter > 6) {
-    startAgain();
+  else if(counter > 18) {
+    error("UH OH! \n\n PLEASE TRY AGAIN!")
   }
   else {
-    setTimeout(pollMessages, 2000);
+    setTimeout(pollMessages, 50);
   }
 }
 
 function handleResponse(response) {
-  if(response.includes("...")) {
+  response = response.trim();
+
+  if(response.includes("Attachment received") || response.includes("Thanks, I will keep this photo for 10 minutes")) {
+    attachmentRecieved();
   }
-  startAgain();
+  else if(response.includes("I'm sorry but I only accept images with faces in them")) {
+    attachmentRefused();
+  }
+  else if(response.includes("You asked:")) {
+    console.log("Image Returned");
+  }
+  else if(response.includes("uploaded a file:")) {
+    console.log("File Uploaded");
+  }
+  else if(response.includes("Please upload a photo that represents you so I can try that question")) {
+    error("UPLOAD A PHOTO OF YOURSELF TO ASK 'WHAT IF I...' QUESTIONS");
+  }
+  else {
+    error(response + "\n\r TRY ANOTHER QUESTION!");
+  }
 }
 
 function uploadImage() {
   var canvas = document.getElementById("canvas");
-  var dataURL = canvas.toDataURL();
+  var dataURL = canvas.toDataURL("image/png");
+  //document.getElementById('hidden_data').value = dataURL;
   var blob = dataURItoBlob(dataURL);
-  var form = new FormData(document.forms[0]);
+  var form = new FormData(document.forms["form1"]);
   form.append("file", blob);
+  var url = urls.uploadFile + "?token=" + _token + "&channels=" + chatIds[1].id + "&filename=file&pretty=1";
+  var xhr = new XMLHttpRequest();
 
-   makeUploadCall(urls.uploadFile, form, null);
+  xhr.open('POST', url,  true);
+  xhr.onload = function() {
+
+  };
+  xhr.onreadystatechange=function(){
+    if (xhr.readyState==4 && xhr.status==200){
+      console.log('xhr.readyState=',xhr.readyState);
+      console.log('xhr.status=',xhr.status);
+      console.log('response=',xhr.responseText);
+
+      setTimeout(function() { getMessages(); }, 200);
+    }
+  };
+  xhr.send(form);
+
+   //makeUploadCall(urls.uploadFile, form, null);
 }
 
 function makeCall(url, _data, successFunction) {
@@ -120,25 +156,6 @@ function makeCall(url, _data, successFunction) {
     url: url,
     data: _data,
     datatype: 'json',
-    type: 'POST',
-    success: function (data) {
-      console.log(data);
-      if(successFunction != null)
-        successFunction(data);
-      return data;
-     },
-     error: function (jqXHR, textStatus, errorThrown) {
-      return errorThrown;
-    }
-  });
-}
-
-function makeUploadCall(url, _data, successFunction) {
-  $.ajax({
-    url: url + "?token=" + _token + "&channels=" + chatIds[1].id + "&filename=name&pretty=1",
-    data: _data,
-    processData: false,
-    contentType: "multipart/form-data",
     type: 'POST',
     success: function (data) {
       console.log(data);

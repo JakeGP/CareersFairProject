@@ -107,6 +107,7 @@ $("#ask-textbox").keyup(function(e){
   }
   if(e.keyCode == 13)
   {
+    showLoading();
     startMurphyCall();
     stopRecognition();
   }

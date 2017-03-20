@@ -60,6 +60,8 @@ button {
 p {
   font-family: 'Raleway';
   font-size: 1.5em;
+  padding: 0px 15px;
+  text-align: center;
 }
 
 ul {
@@ -280,6 +282,8 @@ button:hover {
 
 #share.shareicons {
   width: 100%;
+  background: #592A59;
+  color: white;
 }
 
 #video {
@@ -288,6 +292,7 @@ button:hover {
   background: white;
   z-index: 20;
   width: 640px;
+  min-width: 640px;
   height: 480px;
   border: 3px solid #592A59;
 }
@@ -312,13 +317,13 @@ button:hover {
 }
 
 #murphyloading {
-  position: relative;
+  position: absolute;
   background: white;
-  z-index: 20;
+  opacity: 0.8;
+  z-index: 30;
   display: none;
   height: 480px;
-  width: 1140px;
-  border: 3px solid #592A59;
+  width: 640px;
 }
 
 #cameraFlash {
@@ -329,6 +334,32 @@ button:hover {
   height: 480px;
   width: 640px;
 }
+
+#attachmentRecieved, #attachmentRefused, #error {
+  position: absolute;
+  background: white;
+  opacity: 0.8;
+  z-index: 30;
+  display: none;
+  height: 480px;
+  width: 640px;
+}
+
+#socialicons {
+  position: absolute;
+  overflow: hidden;
+  background: #592A59;
+  opacity: 0.9;
+  z-index: 30;
+  height: 0px;
+  width: 640px;
+  transition: .4s;
+  bottom: 175px;
+}
+#socialicons.show {
+  height: 200px;
+}
+
 #recording {
   display: none;
 }
