@@ -93,6 +93,7 @@ button:hover {
 
 .image-window {
   margin: 20px;
+  max-width: 640px;
   box-shadow: 0px 5px #967096;
 }
 
@@ -312,6 +313,7 @@ button:hover {
   z-index: 20;
   display: none;
   height: 480px;
+  overflow-x: hidden;
   width: 1140px;
   border: 3px solid #592A59;
 }
@@ -345,7 +347,7 @@ button:hover {
   width: 640px;
 }
 
-#socialicons {
+#socialicons, #socialLoading {
   position: absolute;
   overflow: hidden;
   background: #592A59;
@@ -354,9 +356,9 @@ button:hover {
   height: 0px;
   width: 640px;
   transition: .4s;
-  bottom: 175px;
+  margin-top: 140px;
 }
-#socialicons.show {
+#socialicons.show, #socialLoading.show  {
   height: 200px;
 }
 

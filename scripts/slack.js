@@ -6,7 +6,7 @@ var urls = {
   authorise : "https://slack.com/oauth/authorize",
   access : "https://slack.com/api/oauth.access"
 }
-var _token = "xoxp-154581537425-155259091202-156699090963-e5526879277c450e0926ae575e25c081";
+var _token = "xoxp-154581537425-155259091202-157080191989-72e4050b44188f759bbf433d7c22f5c7";
 var ClientID = "154581537425.155941841734";
 var ClientSecret = "e68ac9d9354018255366f28429df17ae";
 var chatIds;
@@ -85,7 +85,10 @@ function updateResponses(data) {
     var difference = numberOfMessagesSecond - numberOfMessagesFirst;
     for(var i = 0; i < difference; i++) {
       if('attachments' in data.messages[0]) {
-        $("#murphyImage img").attr("src", data.messages[0].attachments[0].image_url);
+        imageToDataUrl(data.messages[0].attachments[0].image_url, function(base64Img) {
+          $("#murphyImage img").attr("src", base64Img);
+          uploadImageFromUrl(base64Img, updateUniqueUrl);
+        }, "image/png");
         showImageFromMurphy();
         stopRecognition();
         imagefound = true;
@@ -109,11 +112,12 @@ function handleResponse(response) {
   else if(response.includes("I'm sorry but I only accept images with faces in them")) {
     attachmentRefused();
   }
-  else if(response.includes("You asked:")) {
+  else if(response.includes("You asked:") || response.includes("Here's an idea:")) {
     console.log("Image Returned");
   }
   else if(response.includes("uploaded a file:")) {
     console.log("File Uploaded");
+    pollMessages();
   }
   else if(response.includes("Please upload a photo that represents you so I can try that question")) {
     error("UPLOAD A PHOTO OF YOURSELF TO ASK 'WHAT IF I...' QUESTIONS");
@@ -147,8 +151,30 @@ function uploadImage() {
     }
   };
   xhr.send(form);
+}
 
-   //makeUploadCall(urls.uploadFile, form, null);
+function uploadImageFromUrl(dataURL, callback) {
+  //document.getElementById('hidden_data').value = dataURL;
+  var blob = dataURItoBlob(dataURL);
+  var form = new FormData();
+  form.append("file", blob, "file.png");
+  var url = "http://uploads.im/api?upload";
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('POST', url,  true);
+  xhr.onload = function() {
+
+  };
+  xhr.onreadystatechange=function(){
+    if (xhr.readyState==4 && xhr.status==200){
+      console.log('xhr.readyState=',xhr.readyState);
+      console.log('xhr.status=',xhr.status);
+      console.log('response=',xhr.responseText);
+      var data = JSON.parse(xhr.responseText);
+      callback(data.data.img_url);
+    }
+  };
+  xhr.send(form);
 }
 
 function makeCall(url, _data, successFunction) {
@@ -167,4 +193,24 @@ function makeCall(url, _data, successFunction) {
       return errorThrown;
     }
   });
+}
+
+function imageToDataUrl(src, callback, outputFormat) {
+  var img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = function() {
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var dataURL;
+    canvas.height = this.height;
+    canvas.width = this.width;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL(outputFormat);
+    callback(dataURL);
+  };
+  img.src = src;
+  if (img.complete || img.complete === undefined) {
+    img.src = "data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
 }

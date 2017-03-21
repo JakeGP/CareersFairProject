@@ -1,5 +1,7 @@
 var photoTaken = false;
 var idleTime = 0;
+var uniqueURL = "";
+
 var titles = [
   "What if Donald Trump was a pigeon?",
   "What if Britney Spears was a man?",
@@ -58,14 +60,29 @@ function timerIncrement() {
 }
 
 function showImageFromMurphy() {
+  formatImage();
   $("#video").hide();
   $("#canvas").hide();
   $("#buttons").hide();
+  $("#buttons2").show();
   $("#ask-textbutton").fadeOut(200);
   $("#textbox-wrapper").addClass("fullwidth");
   $("#murphyloading").hide();
-  $("#buttons2").css("display", "flex");
   $("#murphyImage").css("display", "flex");
+}
+
+function formatImage() {
+  var height = $("#loadedImage").height();
+  var width = $("#loadedImage").width();
+
+  if(height > width) {
+    $("#loadedImage").css("height", "480px");
+    $("#loadedImage").css("width", "auto");
+  }
+  else {
+    $("#loadedImage").css("height", "auto");
+    $("#loadedImage").css("width", "640px");
+  }
 }
 
 function showImage() {
@@ -78,14 +95,22 @@ function showImage() {
 }
 
 function showSocialIcons() {
-  var imgurl = $("#murphyImage img").attr("src");
-  $("#socialicons").addClass("show");
-  $("#twitter").attr("href", shareLinks.twitter + imgurl);
-  $("#facebook").attr("href", shareLinks.facebook + imgurl);
+  if(uniqueURL == "") {
+    $("#socialLoading").addClass("show");
+    setTimeout(function() {
+      showSocialIcons();
+    }, 1000);
+  }
+  else {
+    $("#socialLoading").removeClass("show");
+    $("#socialicons").addClass("show");
+  }
 }
 
-function hideSocialIcons() {
-
+function updateUniqueUrl(_uniqueURL) {
+  uniqueURL = _uniqueURL;
+  $("#twitter").attr("href", shareLinks.twitter + uniqueURL);
+  $("#facebook").attr("href", shareLinks.facebook + uniqueURL);
 }
 
 function showLoading() {
@@ -105,6 +130,7 @@ function hidePhotoButtons() {
 }
 
 function startAgain() {
+  uniqueURL = "";
   $("#murphyImage img").attr("src", "");
   $("#video").css("display", "block");
   $("#canvas").css("display", "none");

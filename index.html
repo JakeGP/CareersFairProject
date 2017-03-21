@@ -51,12 +51,13 @@
 						<button id="accept" class="photo-accept flex column center-vh"><i class="material-icons">done</i></button>
 
     				<video id="video" class="image-window" width="640" height="480" autoplay></video>
-						<div id="murphyImage" class="flex column center-vh image-window"><img src="" height="480"/></div>
+						<div id="murphyImage" class="flex column center-vh image-window"><img id="loadedImage" src="" crossOrigin="Anonymous" height="480"/></div>
 						<div id="cameraFlash" class="flex column center-vh"></div>
 						<div id="attachmentRecieved" class="flex column center-vh"><p class="colorPurple">IMAGE RECEIVED, ASK A "WHAT IF I.." QUESTION</p></div>
 						<div id="attachmentRefused" class="flex column center-vh"><p class="colorPurple">CAN'T DETECT A FACE, TRY AGAIN</p></div>
 						<div id="error" class="flex column center-vh"><p class="colorPurple"></p></div>
-						<div id="socialicons" class="flex row center-h around"><a id="twitter" href=""><img id="" src="/images/twitter.png" width="100"/></a><a id="facebook" href=""><img id="" src="/images/facebook.png" width="100"/></a></div>
+						<div id="socialicons" class="flex row center-h around"><a id="twitter" target="_blank" href=""><img id="" src="/images/twitter.png" width="100"/></a><a id="facebook" target="_blank" href=""><img id="" src="/images/facebook.png" width="100"/></a></div>
+						<div id="socialLoading" class="flex column center-vh"><p class="colorWhite">LOADING UNIQUE IMAGE URL...</p><img src="/images/loading.gif" width="50"/></div>
 						<div id="murphyloading" class="flex column center-vh"><img src="/images/loading.gif" width="100"/></div>
     				<canvas id="canvas" class="image-window" width="640" height="480"></canvas>
 
@@ -66,11 +67,13 @@
     				<button id="snap" class="flex row center-vh"><i class="material-icons">camera_alt</i></button>
 						<button id="ask-voice" class="flex row center-vh"><i class="material-icons">mic_off</i><img id="recording" src="/images/mic.gif" width="50"/></button>
 					</div>
-					<div id="buttons2" class="flex row between">
-						<button id="startagain" class="flex row center-vh">Start Again</button>
-						<button id="share" class="flex row center-vh">
-							<i class="material-icons">share</i>
-						</button>
+					<div id="buttons2">
+						<div class="flex row between">
+							<button id="startagain" class="flex row center-vh">Start Again</button>
+							<button id="share" class="flex row center-vh">
+								<i class="material-icons">share</i>
+							</button>
+						</div>
 					</div>
 					<div id="search" class="flex row between">
 						<div id="textbox-wrapper" class="flex row center-vh">

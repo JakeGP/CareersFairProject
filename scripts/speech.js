@@ -42,7 +42,6 @@ var settings = {
         $("#ask-textbox").val(tempText);
     },
     onStart:function(){
-
         console.log("Dictation started by the user");
     },
     onEnd:function(){
