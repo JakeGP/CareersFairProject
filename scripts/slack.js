@@ -6,7 +6,7 @@ var urls = {
   authorise : "https://slack.com/oauth/authorize",
   access : "https://slack.com/api/oauth.access"
 }
-var _token = "xoxp-154581537425-155259091202-157080191989-72e4050b44188f759bbf433d7c22f5c7";
+var _token = "xoxp-154581537425-155259091202-157975711766-ae7ef6c8b9db0e5723b0d6995599a7ba";
 var ClientID = "154581537425.155941841734";
 var ClientSecret = "e68ac9d9354018255366f28429df17ae";
 var chatIds;
@@ -106,7 +106,7 @@ function updateResponses(data) {
 function handleResponse(response) {
   response = response.trim();
 
-  if(response.includes("Attachment received") || response.includes("Thanks, I will keep this photo for 10 minutes")) {
+  if(response.includes("Attachment received") || response.includes("Thanks, I will keep this photo for 10 minutes") || response.includes("Trying another photo")) {
     attachmentRecieved();
   }
   else if(response.includes("I'm sorry but I only accept images with faces in them")) {

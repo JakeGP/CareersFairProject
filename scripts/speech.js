@@ -20,10 +20,12 @@ window.onload = function(){
     artyom.initialize({
         lang:"en-GB",
         debug:true,
-        listen:true
+        listen:true,
+        continuous:true
     }).then(function(){
         console.log("Artyom has been correctly initialized");
         artyom.addCommands(commandCheese);
+        artyom.addCommands(commandMurphy);
         console.log("The following array shouldn't be empty" , artyom.getVoices());
     }).catch(function(){
         console.error("An error occurred during the initialization");
@@ -38,6 +40,8 @@ var settings = {
         var tempText = text;
         tempText = tempText.replace("what if", "");
         tempText = tempText.replace("what is", "");
+        tempText = tempText.replace("murphy that", "");
+        tempText = tempText.replace("Murphy that", "");
         tempText = tempText + "?";
         $("#ask-textbox").val(tempText);
     },
@@ -52,8 +56,16 @@ var settings = {
 var commandCheese = {
     indexes:["cheese", "take photo","snap"], // These spoken words will trigger the execution of the command
     action:function(){ // Action to be executed when a index match with spoken word
-        takePhoto();
-        artyom.addCommands(commandCheese);
+      takePhoto();
+    }
+};
+
+var commandMurphy = {
+    indexes:["Murphy that", "murphy that", "ask Murphy", "ask murphy"], // These spoken words will trigger the execution of the command
+    action:function(){ // Action to be executed when a index match with spoken word
+      showLoading();
+      startMurphyCall();
+      stopRecognition();
     }
 };
 
