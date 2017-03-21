@@ -19,6 +19,16 @@ var titles = [
   "What if Jesus was baking a cake?",
   "What if a Granny was a Formula 1 Race Driver?"
 ];
+var recentImages = [
+
+]
+var defaultImages = [
+  "http://sm.uploads.im/7XMkE.png",
+  "http://sk.uploads.im/bLe8E.png",
+  "http://sk.uploads.im/bUHDB.png",
+  "http://sk.uploads.im/QuU4N.png",
+  "http://sj.uploads.im/lDw5I.png"
+]
 var shareLinks = {
   facebook : "http://www.facebook.com/sharer.php?u=",
   twitter : "http://twitter.com/share?text=I visited the FCG stand at the careers fair today %23FCGCareersFair2017&url="
@@ -28,7 +38,38 @@ $(function() {
   getUsers();
   checkIdle();
   iterateTitles();
+  setUpRecent();
 });
+
+setInterval(function() {
+	$("#recent-wrapper #inner-wrapper .image").animate({ "left": "-=50px" }, "slow", "linear" );
+}, 500);
+
+setInterval(function() {
+	var img = $('#recent-wrapper #inner-wrapper img:nth-last-child(5)').clone();
+	$('#recent-wrapper #inner-wrapper').append(img);
+}, 5000);
+
+function setUpRecent() {
+  var recent = recentImages.length;
+  $("#inner-wrapper").html("");
+
+  for(var i = 0; i < 5; i++) {
+    if(i < recent) {
+      $("#inner-wrapper").append("<img class='image' src='" + recentImages[i] + "'/>");
+    }
+    else {
+      $("#inner-wrapper").append("<img class='image' src='" + defaultImages[i] + "'/>");
+    }
+  }
+}
+
+function addToRecent(newUrl) {
+  if(recentImages.length == 5) {
+    recentImages.shift();
+  }
+  recentImages.push(newUrl);
+}
 
 function iterateTitles() {
   setInterval(changeTitle, 200);
@@ -109,6 +150,7 @@ function showSocialIcons() {
 
 function updateUniqueUrl(_uniqueURL) {
   uniqueURL = _uniqueURL;
+  addToRecent(_uniqueURL);
   $("#twitter").attr("href", shareLinks.twitter + uniqueURL);
   $("#facebook").attr("href", shareLinks.facebook + uniqueURL);
 }
@@ -131,6 +173,7 @@ function hidePhotoButtons() {
 
 function startAgain() {
   uniqueURL = "";
+  setUpRecent();
   $("#murphyImage img").attr("src", "");
   $("#video").css("display", "block");
   $("#canvas").css("display", "none");

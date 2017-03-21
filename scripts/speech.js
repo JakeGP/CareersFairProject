@@ -21,7 +21,7 @@ window.onload = function(){
         lang:"en-GB",
         debug:true,
         listen:true,
-        continuous:true
+        continuous:false
     }).then(function(){
         console.log("Artyom has been correctly initialized");
         artyom.addCommands(commandCheese);
