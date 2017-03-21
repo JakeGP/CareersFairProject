@@ -6,7 +6,7 @@ var urls = {
   authorise : "https://slack.com/oauth/authorize",
   access : "https://slack.com/api/oauth.access"
 }
-var _token = "xoxp-154581537425-155259091202-157679724356-3c9067ed23c401e536ffc81606318e6d";
+var _token = "xoxp-154581537425-155259091202-157049168113-7eeb3fab6b003d58aa7ec62e1c62353e";
 var ClientID = "154581537425.155941841734";
 var ClientSecret = "e68ac9d9354018255366f28429df17ae";
 var chatIds;
@@ -124,7 +124,7 @@ function handleResponse(response) {
   }
   else if(response.includes("Wait, I'm still learning and this question is taking a while. I might have to get back to you later on this one...")) {
     console.log("Random error thrown, retrying and waiting for next response");
-    pollMessages();    
+    pollMessages();
   }
   else {
     error(response + "\n\r TRY ANOTHER QUESTION!");

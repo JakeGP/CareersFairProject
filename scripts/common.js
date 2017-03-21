@@ -50,6 +50,10 @@ setInterval(function() {
 	$('#recent-wrapper #inner-wrapper').append(img);
 }, 5000);
 
+setInterval(function() {
+  setUpRecent();
+}, 60000);
+
 function setUpRecent() {
   var recent = recentImages.length;
   $("#inner-wrapper").html("");
